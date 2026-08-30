@@ -1,0 +1,23 @@
+---
+import type { Resource } from '../data/cv';
+
+interface Props {
+  items: Resource[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="resources">
+  {
+    items.map((item) => (
+      <li>
+        <span class="resource-name">{item.name}</span>
+        {item.description && <p class="resource-desc">{item.description}</p>}
+        <a href={item.href} rel="noopener">
+          {item.display}
+        </a>
+      </li>
+    ))
+  }
+</ul>

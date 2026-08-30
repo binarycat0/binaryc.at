@@ -1,0 +1,58 @@
+---
+import '../styles/global.css';
+import { cv } from '../data/cv';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+// Search engines and LLM-driven recruiter tooling both read this.
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: cv.name,
+  jobTitle: cv.title,
+  description,
+  email: `mailto:${cv.email}`,
+  ...(cv.phone ? { telephone: cv.phone } : {}),
+  url: canonical,
+  address: { '@type': 'PostalAddress', addressCountry: cv.location },
+  knowsLanguage: cv.languages.map((language) => language.name),
+  worksFor: { '@type': 'Organization', name: cv.experience[0].company },
+  sameAs: cv.links.map((link) => link.href),
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.jpg" type="image/jpeg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+
+    <meta name="color-scheme" content="light dark" />
+
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(personSchema)}
+    />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

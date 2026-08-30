@@ -1,0 +1,390 @@
+:root {
+  --bg: #fbfbf9;
+  --surface: #ffffff;
+  --text: #1a1a18;
+  --muted: #6b6b64;
+  --faint: #97978d;
+  --rule: #e3e3dc;
+  --accent: #b4432b;
+
+  --measure: 44rem;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+    'Liberation Mono', monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131312;
+    --surface: #1a1a19;
+    --text: #ebebe6;
+    --muted: #9d9d94;
+    --faint: #6f6f68;
+    --rule: #2c2c29;
+    --accent: #e8795c;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: clamp(2rem, 6vw, 5rem) 1.5rem 6rem;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.page {
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+a:hover {
+  color: var(--accent);
+  border-bottom-color: currentColor;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Header ───────────────────────────────────────────────────────────────── */
+
+.masthead {
+  margin-bottom: 3.5rem;
+}
+
+.masthead h1 {
+  margin: 0;
+  font-size: clamp(1.85rem, 5vw, 2.5rem);
+  font-weight: 640;
+  letter-spacing: -0.022em;
+  line-height: 1.15;
+}
+
+.masthead .tagline {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  font-size: 1.0625rem;
+}
+
+.masthead .tagline .sep {
+  color: var(--faint);
+  padding: 0 0.5ch;
+}
+
+.summary {
+  margin: 1.5rem 0 0;
+  max-width: 38rem;
+  color: var(--text);
+}
+
+.summary + .summary {
+  margin-top: 0.85rem;
+}
+
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+.contact a {
+  border-bottom-color: transparent;
+}
+
+.contact a:hover {
+  border-bottom-color: currentColor;
+}
+
+/* ── Sections ─────────────────────────────────────────────────────────────── */
+
+.section {
+  margin-top: 3.5rem;
+}
+
+.section > h2 {
+  margin: 0 0 1.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.75rem;
+  font-weight: 620;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── Entries (roles, education) ───────────────────────────────────────────── */
+
+.entry + .entry {
+  margin-top: 2.5rem;
+}
+
+.entry-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+}
+
+.entry-head h3 {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 620;
+  letter-spacing: -0.01em;
+}
+
+.entry-head .at {
+  color: var(--faint);
+  font-weight: 400;
+}
+
+/* The URL is shown rather than hidden behind the company name, so it survives
+   printing. Quiet by default; underline appears on hover. */
+.company-url {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.entry-head a {
+  border-bottom-color: transparent;
+}
+
+.entry-head a:hover {
+  border-bottom-color: currentColor;
+}
+
+.dates {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.entry-meta {
+  margin: 0.15rem 0 0;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+.highlights {
+  margin: 0.85rem 0 0;
+  padding-left: 1.1rem;
+  list-style: none;
+}
+
+.highlights li {
+  position: relative;
+  margin-top: 0.4rem;
+}
+
+.highlights li::before {
+  content: '';
+  position: absolute;
+  left: -1.1rem;
+  top: 0.68em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--faint);
+}
+
+/* Nested bullets: a hollow marker one level in. */
+.highlights .sub {
+  margin-top: 0.3rem;
+  padding-left: 1rem;
+}
+
+.highlights .sub li {
+  margin-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.highlights .sub li::before {
+  left: -1rem;
+  top: 0.62em;
+  width: 4px;
+  height: 4px;
+  background: transparent;
+  border: 1px solid var(--faint);
+}
+
+/* ── Resource lists (open source, publications) ───────────────────────────── */
+
+.resources {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resources li + li {
+  margin-top: 0.85rem;
+}
+
+.resource-name {
+  display: block;
+  font-weight: 620;
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+}
+
+.resource-desc {
+  margin: 0.3rem 0;
+  max-width: 38rem;
+  color: var(--muted);
+}
+
+.resources a {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--muted);
+  border-bottom-color: transparent;
+}
+
+.resources a:hover {
+  color: var(--accent);
+  border-bottom-color: currentColor;
+}
+
+/* ── Skills ───────────────────────────────────────────────────────────────── */
+
+.skills {
+  margin: 0;
+  display: grid;
+  gap: 1rem 2rem;
+  grid-template-columns: max-content 1fr;
+}
+
+.skills dt {
+  font-size: 0.8125rem;
+  font-weight: 620;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--faint);
+  padding-top: 0.15rem;
+}
+
+.skills dd {
+  margin: 0;
+}
+
+@media (max-width: 34rem) {
+  .skills {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .skills dd + dt {
+    margin-top: 0.85rem;
+  }
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+
+.colophon {
+  margin-top: 4.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.8125rem;
+  color: var(--faint);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  justify-content: space-between;
+}
+
+/* ── Print: a clean single-column PDF via the browser ─────────────────────── */
+
+@media print {
+  :root {
+    --bg: #fff;
+    --surface: #fff;
+    --text: #000;
+    --muted: #333;
+    --faint: #666;
+    --rule: #ccc;
+    --accent: #000;
+  }
+
+  @page {
+    margin: 16mm 14mm;
+  }
+
+  body {
+    padding: 0;
+    font-size: 10.5pt;
+    line-height: 1.45;
+  }
+
+  .page {
+    max-width: none;
+  }
+
+  .section {
+    margin-top: 1.5rem;
+  }
+
+  .masthead {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Keep a role and its bullets on one page where possible. */
+  .entry,
+  .section > h2 {
+    break-inside: avoid;
+  }
+
+  .section > h2 {
+    break-after: avoid;
+  }
+
+  a {
+    border-bottom: none;
+  }
+
+  .colophon,
+  .no-print {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
