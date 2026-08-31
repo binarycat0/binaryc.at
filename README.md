@@ -1,33 +1,11 @@
 # binaryc.at
 
-Personal CV site. https://binaryc.at
+CV site. [binaryc.at](https://binaryc.at) — Astro, static, S3 + CloudFront.
 
-Static [Astro](https://astro.build) site, hosted on S3 behind CloudFront.
-
-## Editing
-
-All content lives in [`src/data/cv.ts`](src/data/cv.ts) — one typed object.
-The page renders whatever is in it, so adding a role means adding an entry,
-not touching markup.
-
-## Commands
-
-| Command | Does |
-| --- | --- |
-| `npm run dev` | Dev server on http://localhost:4321 |
-| `npm run build` | Static build into `dist/` |
-| `npm run preview` | Serve the built output locally |
-| `npm run check` | Type-check the Astro and TypeScript files |
-
-## Deploying
-
-See [DEPLOY.md](DEPLOY.md) for the one-time AWS setup, then:
+Content lives in [`src/data/cv.ts`](src/data/cv.ts).
 
 ```sh
-BUCKET=... DISTRIBUTION_ID=... ./scripts/deploy.sh
+npm run dev              # localhost:4321
+npm run build            # -> dist/
+./scripts/deploy.sh      # needs .env
 ```
-
-## Notes
-
-- Light and dark themes follow the OS setting; there is no toggle.
-- The print stylesheet is maintained — `⌘P` produces a usable PDF of the CV.

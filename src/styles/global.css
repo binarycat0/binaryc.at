@@ -1,13 +1,11 @@
 :root {
   --bg: #fbfbf9;
-  --surface: #ffffff;
   --text: #1a1a18;
   --muted: #6b6b64;
   --faint: #97978d;
   --rule: #e3e3dc;
   --accent: #b4432b;
 
-  --measure: 44rem;
   --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
@@ -17,7 +15,6 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #131312;
-    --surface: #1a1a19;
     --text: #ebebe6;
     --muted: #9d9d94;
     --faint: #6f6f68;
@@ -32,24 +29,19 @@
   box-sizing: border-box;
 }
 
-html {
-  -webkit-text-size-adjust: 100%;
-}
-
 body {
   margin: 0;
   padding: clamp(2rem, 6vw, 5rem) 1.5rem 6rem;
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
-  font-size: 1rem;
   line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 
 .page {
-  max-width: var(--measure);
+  max-width: 44rem;
   margin-inline: auto;
 }
 
@@ -68,10 +60,16 @@ a:hover {
 a:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 2px;
 }
 
-/* ── Header ───────────────────────────────────────────────────────────────── */
+/* Quiet links: the rule only appears on hover. */
+.contact a,
+.entry-head a,
+.resources a {
+  border-bottom-color: transparent;
+}
+
+/* Header */
 
 .masthead {
   margin-bottom: 3.5rem;
@@ -85,13 +83,13 @@ a:focus-visible {
   line-height: 1.15;
 }
 
-.masthead .tagline {
+.tagline {
   margin: 0.4rem 0 0;
   color: var(--muted);
   font-size: 1.0625rem;
 }
 
-.masthead .tagline .sep {
+.tagline .sep {
   color: var(--faint);
   padding: 0 0.5ch;
 }
@@ -99,7 +97,6 @@ a:focus-visible {
 .summary {
   margin: 1.5rem 0 0;
   max-width: 38rem;
-  color: var(--text);
 }
 
 .summary + .summary {
@@ -117,15 +114,7 @@ a:focus-visible {
   font-size: 0.875rem;
 }
 
-.contact a {
-  border-bottom-color: transparent;
-}
-
-.contact a:hover {
-  border-bottom-color: currentColor;
-}
-
-/* ── Sections ─────────────────────────────────────────────────────────────── */
+/* Sections */
 
 .section {
   margin-top: 3.5rem;
@@ -142,7 +131,7 @@ a:focus-visible {
   color: var(--muted);
 }
 
-/* ── Entries (roles, education) ───────────────────────────────────────────── */
+/* Entries: roles and education */
 
 .entry + .entry {
   margin-top: 2.5rem;
@@ -168,22 +157,13 @@ a:focus-visible {
   font-weight: 400;
 }
 
-/* The URL is shown rather than hidden behind the company name, so it survives
-   printing. Quiet by default; underline appears on hover. */
+/* Shown rather than hidden behind the name, so it survives printing. */
 .company-url {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   font-weight: 400;
   color: var(--muted);
   white-space: nowrap;
-}
-
-.entry-head a {
-  border-bottom-color: transparent;
-}
-
-.entry-head a:hover {
-  border-bottom-color: currentColor;
 }
 
 .dates {
@@ -222,7 +202,6 @@ a:focus-visible {
   background: var(--faint);
 }
 
-/* Nested bullets: a hollow marker one level in. */
 .highlights .sub {
   margin-top: 0.3rem;
   padding-left: 1rem;
@@ -234,16 +213,15 @@ a:focus-visible {
   font-size: 0.9375rem;
 }
 
+/* One level in, the marker goes hollow. */
 .highlights .sub li::before {
   left: -1rem;
   top: 0.62em;
-  width: 4px;
-  height: 4px;
   background: transparent;
   border: 1px solid var(--faint);
 }
 
-/* ── Resource lists (open source, publications) ───────────────────────────── */
+/* Projects, open source, publications */
 
 .resources {
   margin: 0;
@@ -272,15 +250,9 @@ a:focus-visible {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   color: var(--muted);
-  border-bottom-color: transparent;
 }
 
-.resources a:hover {
-  color: var(--accent);
-  border-bottom-color: currentColor;
-}
-
-/* ── Skills ───────────────────────────────────────────────────────────────── */
+/* Skills and languages */
 
 .skills {
   margin: 0;
@@ -313,26 +285,23 @@ a:focus-visible {
   }
 }
 
-/* ── Footer ───────────────────────────────────────────────────────────────── */
-
 .colophon {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
   margin-top: 4.5rem;
   padding-top: 1.25rem;
   border-top: 1px solid var(--rule);
   font-size: 0.8125rem;
   color: var(--faint);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
-  justify-content: space-between;
 }
 
-/* ── Print: a clean single-column PDF via the browser ─────────────────────── */
+/* Print: ⌘P gives a clean one-column PDF of the CV. */
 
 @media print {
   :root {
     --bg: #fff;
-    --surface: #fff;
     --text: #000;
     --muted: #333;
     --faint: #666;
@@ -354,15 +323,14 @@ a:focus-visible {
     max-width: none;
   }
 
-  .section {
-    margin-top: 1.5rem;
-  }
-
   .masthead {
     margin-bottom: 1.5rem;
   }
 
-  /* Keep a role and its bullets on one page where possible. */
+  .section {
+    margin-top: 1.5rem;
+  }
+
   .entry,
   .section > h2 {
     break-inside: avoid;
@@ -379,12 +347,5 @@ a:focus-visible {
   .colophon,
   .no-print {
     display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
   }
 }

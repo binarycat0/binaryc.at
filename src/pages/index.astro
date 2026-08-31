@@ -1,41 +1,31 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ResourceList from '../components/ResourceList.astro';
 import { cv } from '../data/cv';
 
-const year = new Date().getFullYear();
 const description = cv.summary[0];
+const host = (href: string) => new URL(href).hostname.replace(/^www\./, '');
 
-/** "https://www.dremio.com/" -> "dremio.com" */
-const displayHost = (href: string) =>
-  new URL(href).hostname.replace(/^www\./, '');
+const lists = [
+  { title: 'Projects', items: cv.projects },
+  { title: 'Open source', items: cv.openSource },
+  { title: 'Publications', items: cv.publications },
+].filter((list) => list.items.length > 0);
 ---
 
 <Layout title={`${cv.name} — ${cv.title}`} description={description}>
   <div class="page">
     <header class="masthead">
       <h1>{cv.name}</h1>
-      <p class="tagline">
-        {cv.title}<span class="sep">·</span>{cv.location}
-      </p>
+      <p class="tagline">{cv.title}<span class="sep">·</span>{cv.location}</p>
 
       {cv.summary.map((para) => <p class="summary">{para}</p>)}
 
       <ul class="contact">
         <li><a href={`mailto:${cv.email}`}>{cv.email}</a></li>
         {
-          cv.phone && (
-            <li>
-              <a href={`tel:${cv.phone.replace(/\s/g, '')}`}>{cv.phone}</a>
-            </li>
-          )
-        }
-        {
           cv.links.map((link) => (
             <li>
-              <a href={link.href} rel="me noopener">
-                {link.display ?? link.label}
-              </a>
+              <a href={link.href} rel="me noopener">{link.display ?? link.label}</a>
             </li>
           ))
         }
@@ -43,22 +33,15 @@ const displayHost = (href: string) =>
     </header>
 
     <main>
-      <section class="section" aria-labelledby="skills">
-        <h2 id="skills">Skills</h2>
+      <section class="section">
+        <h2>Skills</h2>
         <dl class="skills">
-          {
-            cv.skills.map((group) => (
-              <>
-                <dt>{group.label}</dt>
-                <dd>{group.items.join(', ')}</dd>
-              </>
-            ))
-          }
+          {cv.skills.map((group) => <><dt>{group.label}</dt><dd>{group.items.join(', ')}</dd></>)}
         </dl>
       </section>
 
-      <section class="section" aria-labelledby="experience">
-        <h2 id="experience">Experience</h2>
+      <section class="section">
+        <h2>Experience</h2>
         {
           cv.experience.map((role) => (
             <article class="entry">
@@ -67,17 +50,11 @@ const displayHost = (href: string) =>
                   {role.title} <span class="at">at</span> {role.company}{' '}
                   {role.companyHref && (
                     <span class="company-url">
-                      (
-                      <a href={role.companyHref} rel="noopener">
-                        {displayHost(role.companyHref)}
-                      </a>
-                      )
+                      (<a href={role.companyHref} rel="noopener">{host(role.companyHref)}</a>)
                     </span>
                   )}
                 </h3>
-                <span class="dates">
-                  {role.start}&nbsp;–&nbsp;{role.end ?? 'present'}
-                </span>
+                <span class="dates">{role.start}&nbsp;–&nbsp;{role.end ?? 'present'}</span>
               </div>
 
               {role.location && <p class="entry-meta">{role.location}</p>}
@@ -86,11 +63,9 @@ const displayHost = (href: string) =>
                 {role.highlights.map((item) => (
                   <li>
                     {item.text}
-                    {item.children && item.children.length > 0 && (
+                    {item.children && (
                       <ul class="highlights sub">
-                        {item.children.map((child) => (
-                          <li>{child}</li>
-                        ))}
+                        {item.children.map((child) => <li>{child}</li>)}
                       </ul>
                     )}
                   </li>
@@ -102,26 +77,24 @@ const displayHost = (href: string) =>
       </section>
 
       {
-        cv.projects.length > 0 && (
-          <section class="section" aria-labelledby="projects">
-            <h2 id="projects">Projects</h2>
-            <ResourceList items={cv.projects} />
+        lists.map((list) => (
+          <section class="section">
+            <h2>{list.title}</h2>
+            <ul class="resources">
+              {list.items.map((item) => (
+                <li>
+                  <span class="resource-name">{item.name}</span>
+                  {item.description && <p class="resource-desc">{item.description}</p>}
+                  <a href={item.href} rel="noopener">{item.display}</a>
+                </li>
+              ))}
+            </ul>
           </section>
-        )
+        ))
       }
 
-      <section class="section" aria-labelledby="open-source">
-        <h2 id="open-source">Open source</h2>
-        <ResourceList items={cv.openSource} />
-      </section>
-
-      <section class="section" aria-labelledby="publications">
-        <h2 id="publications">Publications</h2>
-        <ResourceList items={cv.publications} />
-      </section>
-
-      <section class="section" aria-labelledby="education">
-        <h2 id="education">Education</h2>
+      <section class="section">
+        <h2>Education</h2>
         {
           cv.education.map((entry) => (
             <article class="entry">
@@ -129,8 +102,7 @@ const displayHost = (href: string) =>
                 <h3>{entry.credential}</h3>
                 {entry.start && (
                   <span class="dates">
-                    {entry.start}
-                    {entry.end && <>&nbsp;–&nbsp;{entry.end}</>}
+                    {entry.start}{entry.end && <>&nbsp;–&nbsp;{entry.end}</>}
                   </span>
                 )}
               </div>
@@ -140,23 +112,16 @@ const displayHost = (href: string) =>
         }
       </section>
 
-      <section class="section" aria-labelledby="languages">
-        <h2 id="languages">Languages</h2>
+      <section class="section">
+        <h2>Languages</h2>
         <dl class="skills">
-          {
-            cv.languages.map((language) => (
-              <>
-                <dt>{language.name}</dt>
-                <dd>{language.level}</dd>
-              </>
-            ))
-          }
+          {cv.languages.map((lang) => <><dt>{lang.name}</dt><dd>{lang.level}</dd></>)}
         </dl>
       </section>
     </main>
 
     <footer class="colophon">
-      <span>© {year} {cv.name}</span>
+      <span>© {new Date().getFullYear()} {cv.name}</span>
       <span class="no-print">Press ⌘P / Ctrl-P for a PDF copy.</span>
     </footer>
   </div>

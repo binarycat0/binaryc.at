@@ -1,75 +1,33 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// All site content lives here. Editing this file is the only thing you need to
-// do to update the CV — the page renders whatever is in this object.
-// ─────────────────────────────────────────────────────────────────────────────
+// All site content. Dates are free text; omit a role's `end` for "present".
 
-export interface Link {
-  label: string;
-  href: string;
-  /** Shown instead of the raw URL, e.g. "github.com/binarycat0" */
-  display?: string;
-}
+interface Link { label: string; href: string; display?: string }
+interface Highlight { text: string; children?: string[] }
+interface Resource { name: string; href: string; display: string; description?: string }
 
-/** A bullet that may carry its own sub-bullets. */
-export interface Highlight {
-  text: string;
-  children?: string[];
-}
-
-export interface Role {
+interface Role {
   company: string;
-  /** Optional company website; omit and the name renders as plain text. */
   companyHref?: string;
   title: string;
-  /** Free text, rendered as given */
   start: string;
-  /** Omit for a current role; renders as "present" */
   end?: string;
   location?: string;
   highlights: Highlight[];
 }
 
-export interface SkillGroup {
-  label: string;
-  items: string[];
-}
-
-export interface Education {
-  institution: string;
-  credential: string;
-  start?: string;
-  end?: string;
-}
-
-export interface Resource {
-  name: string;
-  href: string;
-  display: string;
-  /** Optional one-liner; rendered between the name and the link. */
-  description?: string;
-}
-
-export interface Language {
-  name: string;
-  level: string;
-}
-
-export interface CV {
+interface CV {
   name: string;
   title: string;
   location: string;
   summary: string[];
   email: string;
-  /** Omit to keep it off a public page. */
-  phone?: string;
   links: Link[];
-  skills: SkillGroup[];
+  skills: { label: string; items: string[] }[];
   experience: Role[];
   projects: Resource[];
   openSource: Resource[];
   publications: Resource[];
-  education: Education[];
-  languages: Language[];
+  education: { institution: string; credential: string; start?: string; end?: string }[];
+  languages: { name: string; level: string }[];
 }
 
 export const cv: CV = {
