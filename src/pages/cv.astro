@@ -1,0 +1,128 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { cv } from '../data/cv';
+
+const description = cv.summary[0];
+const host = (href: string) => new URL(href).hostname.replace(/^www\./, '');
+
+const lists = [
+  { title: 'Projects', items: cv.projects },
+  { title: 'Open source', items: cv.openSource },
+  { title: 'Publications', items: cv.publications },
+].filter((list) => list.items.length > 0);
+---
+
+<Layout title={`${cv.name} — CV`} description={description}>
+  <div class="page">
+    <header class="masthead">
+      <h1>{cv.name}</h1>
+      <p class="tagline">{cv.title}<span class="sep">·</span>{cv.location}</p>
+
+      {cv.summary.map((para) => <p class="summary">{para}</p>)}
+
+      <ul class="contact">
+        <li><a href={`mailto:${cv.email}`}>{cv.email}</a></li>
+        {
+          cv.links.map((link) => (
+            <li>
+              <a href={link.href} rel="me noopener">{link.display ?? link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </header>
+
+    <main>
+      <section class="section">
+        <h2>Skills</h2>
+        <dl class="skills">
+          {cv.skills.map((group) => <><dt>{group.label}</dt><dd>{group.items.join(', ')}</dd></>)}
+        </dl>
+      </section>
+
+      <section class="section">
+        <h2>Experience</h2>
+        {
+          cv.experience.map((role) => (
+            <article class="entry">
+              <div class="entry-head">
+                <h3>
+                  {role.title} <span class="at">at</span> {role.company}{' '}
+                  {role.companyHref && (
+                    <span class="company-url">
+                      (<a href={role.companyHref} rel="noopener">{host(role.companyHref)}</a>)
+                    </span>
+                  )}
+                </h3>
+                <span class="dates">{role.start}&nbsp;–&nbsp;{role.end ?? 'present'}</span>
+              </div>
+
+              {role.location && <p class="entry-meta">{role.location}</p>}
+
+              <ul class="highlights">
+                {role.highlights.map((item) => (
+                  <li>
+                    {item.text}
+                    {item.children && (
+                      <ul class="highlights sub">
+                        {item.children.map((child) => <li>{child}</li>)}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </section>
+
+      {
+        lists.map((list) => (
+          <section class="section">
+            <h2>{list.title}</h2>
+            <ul class="resources">
+              {list.items.map((item) => (
+                <li>
+                  <span class="resource-name">{item.name}</span>
+                  {item.description && <p class="resource-desc">{item.description}</p>}
+                  <a href={item.href} rel="noopener">{item.display}</a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+
+      <section class="section">
+        <h2>Education</h2>
+        {
+          cv.education.map((entry) => (
+            <article class="entry">
+              <div class="entry-head">
+                <h3>{entry.credential}</h3>
+                {entry.start && (
+                  <span class="dates">
+                    {entry.start}{entry.end && <>&nbsp;–&nbsp;{entry.end}</>}
+                  </span>
+                )}
+              </div>
+              <p class="entry-meta">{entry.institution}</p>
+            </article>
+          ))
+        }
+      </section>
+
+      <section class="section">
+        <h2>Languages</h2>
+        <dl class="skills">
+          {cv.languages.map((lang) => <><dt>{lang.name}</dt><dd>{lang.level}</dd></>)}
+        </dl>
+      </section>
+    </main>
+
+    <footer class="colophon">
+      <span>© {new Date().getFullYear()} {cv.name}</span>
+      <span class="no-print"><a href="/">binaryc.at</a> · Press ⌘P / Ctrl-P for a PDF copy.</span>
+    </footer>
+  </div>
+</Layout>

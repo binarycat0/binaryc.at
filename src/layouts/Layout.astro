@@ -9,6 +9,7 @@ interface Props {
 
 const { title, description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const photo = new URL('/photo.jpg', Astro.site).href;
 
 // Read by search engines and recruiter tooling.
 const person = {
@@ -19,6 +20,7 @@ const person = {
   description,
   email: `mailto:${cv.email}`,
   url: canonical,
+  image: photo,
   worksFor: { '@type': 'Organization', name: cv.experience[0].company },
   sameAs: cv.links.map((l) => l.href),
 };
@@ -39,6 +41,7 @@ const person = {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={photo} />
 
     <script is:inline type="application/ld+json" set:html={JSON.stringify(person)} />
   </head>

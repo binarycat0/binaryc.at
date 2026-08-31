@@ -69,13 +69,82 @@ a:focus-visible {
   border-bottom-color: transparent;
 }
 
+/* Landing page */
+
+.home {
+  max-width: 26rem;
+  margin: min(14vh, 7rem) auto 0;
+  text-align: center;
+}
+
+.portrait {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1.75rem;
+}
+
+/* Category on the left, links on the right, the pair block centred. */
+.home-links dl {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  justify-content: center;
+  gap: 0.9rem 1.5rem;
+  margin: 2.5rem 0 0;
+  text-align: left;
+}
+
+.home-links dt {
+  text-align: right;
+  padding-top: 0.1rem;
+  font-size: 0.75rem;
+  font-weight: 620;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.home-links dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+.home-links dd ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-links dd li + li {
+  margin-top: 0.4rem;
+}
+
+@media (max-width: 30rem) {
+  .home-links dl {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 0.3rem;
+  }
+
+  .home-links dt {
+    text-align: center;
+  }
+
+  .home-links dd + dt {
+    margin-top: 0.9rem;
+  }
+}
+
 /* Header */
 
 .masthead {
   margin-bottom: 3.5rem;
 }
 
-.masthead h1 {
+.masthead h1,
+.home h1 {
   margin: 0;
   font-size: clamp(1.85rem, 5vw, 2.5rem);
   font-weight: 640;
