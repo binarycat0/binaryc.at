@@ -1,4 +1,6 @@
-// All site content. Dates are free text; omit a role's `end` for "present".
+// The English CV, and the shape every translation has to match — cv.ru.ts is
+// checked against `CV`, so a missing section is a build error, not a surprise.
+// Dates are free text; omit a role's `end` for "present".
 
 interface Link { label: string; href: string; display?: string }
 interface Highlight { text: string; children?: string[] }
@@ -14,7 +16,7 @@ interface Role {
   highlights: Highlight[];
 }
 
-interface CV {
+export interface CV {
   name: string;
   title: string;
   location: string;

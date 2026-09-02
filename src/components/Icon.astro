@@ -1,0 +1,19 @@
+---
+import { icons, type IconName } from '../icons';
+
+interface Props {
+  name: IconName;
+}
+
+const { name } = Astro.props;
+---
+
+<!-- Decorative: every icon sits next to a label that names the same thing. -->
+<svg
+  class="icon"
+  viewBox="0 0 16 16"
+  width="16"
+  height="16"
+  fill="currentColor"
+  aria-hidden="true"
+><path d={icons[name]} /></svg>

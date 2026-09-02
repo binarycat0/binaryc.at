@@ -1,13 +1,19 @@
 ---
 import '../styles/global.css';
-import { cv } from '../data/cv';
+import { cv as defaultCv, type CV } from '../data/cv';
 
 interface Props {
   title: string;
   description: string;
+  lang?: string;
+  // The same page in other languages, as hreflang alternates.
+  alternates?: { hreflang: string; href: string }[];
+  // Whose details the JSON-LD describes; the Russian CV passes its own copy so
+  // the markup doesn't contradict the page.
+  cv?: CV;
 }
 
-const { title, description } = Astro.props;
+const { title, description, lang = 'en', alternates = [], cv = defaultCv } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const photo = new URL('/photo.jpg', Astro.site).href;
 
@@ -27,7 +33,7 @@ const person = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -35,6 +41,11 @@ const person = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {
+      alternates.map((alt) => (
+        <link rel="alternate" hreflang={alt.hreflang} href={new URL(alt.href, Astro.site).href} />
+      ))
+    }
     <link rel="icon" href="/favicon.jpg" type="image/jpeg" />
 
     <meta property="og:type" content="profile" />

@@ -1,20 +1,34 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
 import { cv } from '../data/cv';
+import type { IconName } from '../icons';
+
+interface Row {
+  label: string;
+  icon: IconName;
+  links: { text: string; href: string; lang?: string }[];
+}
 
 // Landing-page links. The CV keeps its own, fuller set in src/data/cv.ts.
-const groups = [
-  { label: 'LinkedIn', links: [{ text: 'linkedin.com/in/binarycat', href: 'https://linkedin.com/in/binarycat' }] },
-  { label: 'GitHub', links: [{ text: 'github.com/binarycat0', href: 'https://github.com/binarycat0' }] },
-  { label: 'Medium', links: [{ text: 'medium.com/@artur.rakhmatulin', href: 'https://medium.com/@artur.rakhmatulin' }] },
-  { label: 'CV', links: [{ text: '/cv.html', href: '/cv.html' }] },
-  { label: 'Projects', links: [{ text: 'demo.binaryc.at', href: 'https://demo.binaryc.at' }] },
+const groups: Row[] = [
+  { label: 'LinkedIn', icon: 'linkedin', links: [{ text: 'linkedin.com/in/binarycat', href: 'https://linkedin.com/in/binarycat' }] },
+  { label: 'GitHub', icon: 'github', links: [{ text: 'github.com/binarycat0', href: 'https://github.com/binarycat0' }] },
+  { label: 'Medium', icon: 'medium', links: [{ text: 'medium.com/@artur.rakhmatulin', href: 'https://medium.com/@artur.rakhmatulin' }] },
   {
-    label: 'Tools',
+    label: 'CV',
+    icon: 'cv',
     links: [
-      { text: 'tools.binaryc.at', href: 'https://tools.binaryc.at/' },
-      { text: 'watchcat', href: 'https://tools.binaryc.at/watchcat/' },
-      { text: 'buildyard', href: 'https://tools.binaryc.at/buildyard/' },
+      { text: 'resume', href: '/cv' },
+      { text: 'резюме', href: '/ru/cv', lang: 'ru' },
+    ],
+  },
+  {
+    label: 'Projects',
+    icon: 'projects',
+    links: [
+      { text: 'ymove.org', href: 'https://ymove.org/' },
+      { text: 'demo.binaryc.at', href: 'https://demo.binaryc.at' },
     ],
   },
 ];
@@ -32,13 +46,17 @@ const groups = [
         {
           groups.map((group) => (
             <>
-              <dt>{group.label}</dt>
+              <dt>
+                <Icon name={group.icon} />
+                <span class="visually-hidden">{group.label}</span>
+              </dt>
               <dd>
                 <ul>
                   {group.links.map((link) => (
                     <li>
                       <a
                         href={link.href}
+                        lang={link.lang}
                         rel={link.href.startsWith('/') ? null : 'me noopener'}
                       >
                         {link.text}
